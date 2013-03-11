@@ -1,0 +1,11 @@
+# Pastas
+.__history/
+
+# Arquivos
+*.dcu
+*.exe
+*.local
+*.identcache
+*.drc
+*.jdbg
+*.map
