@@ -1,0 +1,9 @@
+unit uClauseWhereTests;
+
+interface
+
+uses TestFramework;
+
+implementation
+
+end.

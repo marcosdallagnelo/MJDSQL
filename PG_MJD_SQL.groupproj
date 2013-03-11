@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{0650322B-5AE7-4CC5-A826-62721D58EA11}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Project\MJD.SQL.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Test\MJD.SQL.Tests.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="MJD_SQL">
+        <MSBuild Projects="Project\MJD.SQL.dproj"/>
+    </Target>
+    <Target Name="MJD_SQL:Clean">
+        <MSBuild Projects="Project\MJD.SQL.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MJD_SQL:Make">
+        <MSBuild Projects="Project\MJD.SQL.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="MJD_SQL_Tests">
+        <MSBuild Projects="Test\MJD.SQL.Tests.dproj"/>
+    </Target>
+    <Target Name="MJD_SQL_Tests:Clean">
+        <MSBuild Projects="Test\MJD.SQL.Tests.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MJD_SQL_Tests:Make">
+        <MSBuild Projects="Test\MJD.SQL.Tests.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="MJD_SQL;MJD_SQL_Tests"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="MJD_SQL:Clean;MJD_SQL_Tests:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="MJD_SQL:Make;MJD_SQL_Tests:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

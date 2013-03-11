@@ -1,0 +1,25 @@
+unit uClauseWhereTests;
+
+interface
+
+uses TestFramework;
+
+type
+  TClauseWhereTests = class(TTestCase)
+  published
+    function AddWhere(Where: string): string;
+  end;
+
+implementation
+
+{ TClauseWhereTests }
+
+function TClauseWhereTests.AddWhere(Where: string): string;
+begin
+
+end;
+
+initialization
+  TestFramework.RegisterTest(TClauseWhereTests.Suite);
+
+end.
