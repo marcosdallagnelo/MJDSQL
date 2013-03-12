@@ -2,12 +2,13 @@ unit uWhereClauseBuilderTests;
 
 interface
 
-uses TestFramework, uWhereClauseBuilder;
+uses TestFramework, uWhereClauseBuilder, uCriteria, System.Rtti;
 
 type
   TWhereClauseBuilderTests = class(TTestCase)
   published
     procedure Adiciona_Criterio_Where_SQL_Sem_Where;
+    procedure Adiciona_Criteria_Where_SQL_Sem_Where;
     procedure Adiciona_Criterio_Where_SQL_Com_Where;
     procedure Adiciona_Criterio_Where_SQL_Sem_Where_Com_OrderBy;
     procedure Adiciona_Criterio_Where_SQL_Com_Where_Com_OrderBy;
@@ -24,6 +25,7 @@ type
     procedure Obter_Where_SQL_Possui_Where_GroupBy;
     procedure Obter_Where_SQL_Possui_Where_OrderBy;
     procedure Obter_Where_SQL_Possui_Where_GroupBy_OrderBy;
+    procedure Volta_SQL_Original;
   end;
 
 implementation
@@ -70,6 +72,27 @@ const
 begin
   WhereClause := TWhereClauseBuilder.Create(SQL_SELECT_ATUAL);
   WhereClause.AddWhere(SQL_WHERE_CLAUSE);
+
+  CheckEqualsString(SQL_SELECT_ESPERADO, WhereClause.SQL);
+end;
+
+procedure TWhereClauseBuilderTests.Adiciona_Criteria_Where_SQL_Sem_Where;
+var
+  WhereClause: TWhereClauseBuilder;
+  Value: TValue;
+const
+  SQL_SELECT_ATUAL = 'select pes_bairro, pes_celular, pes_cep, pes_cid_id, ' +
+    'pes_cnpj, pes_cpf, pes_id, pes_inscricao_estadual, pes_inscricao_municipal, ' +
+    'pes_lixeira, pes_logradouro, pes_nome, pes_numero, pes_razao_social, ' +
+    'pes_telefone, pes_tipo from pessoa_pes';
+  SQL_SELECT_ESPERADO = 'select pes_bairro, pes_celular, pes_cep, pes_cid_id, ' +
+    'pes_cnpj, pes_cpf, pes_id, pes_inscricao_estadual, pes_inscricao_municipal, ' +
+    'pes_lixeira, pes_logradouro, pes_nome, pes_numero, pes_razao_social, ' +
+    'pes_telefone, pes_tipo from pessoa_pes WHERE pes_lixeira = 1';
+begin
+  WhereClause := TWhereClauseBuilder.Create(SQL_SELECT_ATUAL);
+  Value := 1;
+  WhereClause.AddWhere(NewCriteria('pes_lixeira', coEqual, Value).ToString());
 
   CheckEqualsString(SQL_SELECT_ESPERADO, WhereClause.SQL);
 end;
@@ -260,6 +283,21 @@ begin
   WhereClause := TWhereClauseBuilder.Create(SQL_SELECT_ATUAL);
 
   CheckEqualsString('', WhereClause.Where);
+end;
+
+procedure TWhereClauseBuilderTests.Volta_SQL_Original;
+var
+  WhereClause: TWhereClauseBuilder;
+  Value: TValue;
+const
+  SQL_SELECT_ATUAL = 'SELECT campo1, campo2 FROM tabela_qualquer';
+begin
+  WhereClause := TWhereClauseBuilder.Create(SQL_SELECT_ATUAL);
+  Value := 1;
+  WhereClause.AddWhere(NewCriteria('campo1', coEqual, Value).ToString());
+  WhereClause.Clear;
+
+  CheckEqualsString(SQL_SELECT_ATUAL, WhereClause.SQL);
 end;
 
 initialization

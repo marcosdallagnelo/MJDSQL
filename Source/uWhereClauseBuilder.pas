@@ -34,6 +34,7 @@ type
     property SQL: string read FSQL;
     property SQLOriginal: string read FSQLOriginal;
     property Where: string read GetWhereClause;
+    procedure Clear;
   end;
 
 implementation
@@ -65,6 +66,11 @@ begin
   FSQL := Trim(FSQL);
 end;
 
+procedure TWhereClauseBuilder.Clear;
+begin
+  FSQL := FSQLOriginal;
+end;
+
 constructor TWhereClauseBuilder.Create(SQL: String);
 begin
   FSQL := SQL;
@@ -91,7 +97,7 @@ function TWhereClauseBuilder.GetClause(AClause: TClause): string;
 var
   PosClause, PosClauseEnd: Integer;
 begin
-  PosClause := Pos(TClauseStrings[AClause], FSQL);
+  PosClause := Pos(TClauseStrings[AClause], UpperCase(FSQL));
 
   if (PosClause > 0) then
   begin
