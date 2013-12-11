@@ -50,7 +50,8 @@ begin
   begin
     PriorClause := GetClause(tcFrom);
 
-    Where := Trim(StringReplace(Where, LOGIC_OPERATOR_AND, '', []));
+    if (Copy(Where, 1, 3) = LOGIC_OPERATOR_AND) then
+      Where := Trim(StringReplace(Where, LOGIC_OPERATOR_AND, '', []));
     Where := Format('%s %s', [WHERE_CLAUSE, Where]);
   end;
 

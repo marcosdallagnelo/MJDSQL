@@ -8,6 +8,7 @@ type
   TWhereClauseBuilderTests = class(TTestCase)
   published
     procedure Adiciona_Criterio_Where_SQL_Sem_Where;
+    procedure Adiciona_2_Criterio_Where_SQL_Sem_Where;
     procedure Adiciona_Criteria_Where_SQL_Sem_Where;
     procedure Adiciona_Criterio_Where_SQL_Com_Where;
     procedure Adiciona_Criterio_Where_SQL_Sem_Where_Com_OrderBy;
@@ -69,6 +70,20 @@ const
     'GROUP BY campo1 HAVING SUM(campo2) > 0 ORDER BY campo1';
   SQL_SELECT_ESPERADO = 'SELECT campo1, SUM(campo2) FROM tabela_qualquer ' +
     'WHERE campo1 = 1 GROUP BY campo1 HAVING SUM(campo2) > 0 ORDER BY campo1';
+begin
+  WhereClause := TWhereClauseBuilder.Create(SQL_SELECT_ATUAL);
+  WhereClause.AddWhere(SQL_WHERE_CLAUSE);
+
+  CheckEqualsString(SQL_SELECT_ESPERADO, WhereClause.SQL);
+end;
+
+procedure TWhereClauseBuilderTests.Adiciona_2_Criterio_Where_SQL_Sem_Where;
+var
+  WhereClause: TWhereClauseBuilder;
+const
+  SQL_WHERE_CLAUSE = 'campo1 = 1 AND campo2 = 2';
+  SQL_SELECT_ATUAL = 'SELECT campo1, campo2 FROM tabela_qualquer';
+  SQL_SELECT_ESPERADO = 'SELECT campo1, campo2 FROM tabela_qualquer WHERE campo1 = 1 AND campo2 = 2';
 begin
   WhereClause := TWhereClauseBuilder.Create(SQL_SELECT_ATUAL);
   WhereClause.AddWhere(SQL_WHERE_CLAUSE);

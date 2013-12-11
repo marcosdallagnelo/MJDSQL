@@ -42,6 +42,7 @@ type
 
   TdormCompareOperator = (coEqual, coGreaterThan, coLowerThan, coGreaterOrEqual,
     coLowerOrEqual, coNotEqual, coLike);
+  TMJDCompareOperatorSet = set of TdormCompareOperator;
   TdormLogicRelation = (lrAnd, lrOr);
 
   ICriteriaItem = interface;
@@ -159,7 +160,7 @@ const
   CO_LOWER_THAN = '<';
   CO_GREATER_OR_EQUAL = '>=';
   CO_LOWER_OR_EQUAL = '<=';
-  CO_NOT_EQUAL = '=!';
+  CO_NOT_EQUAL = '!=';
   CO_LIKE = 'LIKE';
 
   LR_AND = 'AND';
